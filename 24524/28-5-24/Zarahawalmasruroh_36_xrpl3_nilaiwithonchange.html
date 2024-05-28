@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge, width=device-width, initial-scale=1.0"
+          name="viewport">
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th{
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            background-color: aqua;
+        } td {
+              border: 1px solid #ddd;
+              padding: 8px;
+              text-align: left;
+          }
+    </style>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
+    <title>Nilai</title>
+</head>
+<body class="w-full flex flex-col justify-center items-center font-mono">
+<h1 class="my-5 mt-20 text-2xl">Menghitung Indeks Prestasi</h1>
+<h1 id="notify" class="my-5 px-2 text-sm text-gray-800 bg-red-300 rounded-md hidden"></h1>
+<h1 id="credit" class="my-2 px-2 text-sm text-gray-800 bg-green-300 rounded-md hidden"></h1>
+<table onsubmit="return">
+    <tr>
+        <th>Komponen</th>
+        <th>Bobot</th>
+        <th>Nilai</th>
+    </tr> 
+    <tr>
+        <td>Quis</td>
+        <td>10%</td>
+        <td><input class="w-full px-2 rounded-md" min="0" max="100" type="number" name="quis" id="quis"
+                   onchange="calculate()"placeholder="masukkan nilai"></td>
+    </tr>
+    <tr>
+        <td>Tugas</td>
+        <td>20%</td>
+        <td>
+   <!-- Perbedaan antara onchange dan onkeyup adalah bahwa onchange dipicu setiap kali mengirimkan formulir atau mengubah nilai elemen, sedangkan onkeyup dipicu setiap kali pengguna melepaskan tombol keyboard. onkeyup biasanya digunakan untuk menangani peristiwa ketika pengguna selesai mengetik atau mengetik di elemen, sedangkan onchange biasanya digunakan untuk menangani peristiwa ketika nilai elemen berubah. -->         
+   <!-- onchange adalah atribut HTML yang dipicu setiap kali pengguna mengirimkan formulir atau mengubah nilai elemen. Ini biasanya digunakan untuk menangani peristiwa ketika nilai elemen berubah, seperti ketika pengguna memilih pilihan baru dari dropdown atau memasukkan nilai baru ke dalam input. Ketika pengguna mengirimkan formulir atau mengubah nilai elemen, atribut onchange akan dipanggil dan memicu fungsi yang ditentukan untuk menangani peristiwa tersebut. onkeyup adalah atribut HTML yang dipicu setiap kali pengguna melepaskan tombol keyboard. Ini biasanya digunakan untuk menangani peristiwa ketika pengguna selesai mengetik atau mengetik di elemen, seperti ketika pengguna mengetik nama mereka di input atau mengetik kode di textarea. Ketika pengguna melepaskan tombol keyboard, atribut onkeyup akan dipanggil dan memicu fungsi yang ditentukan untuk menangani peristiwa tersebut. Kedua atribut ini dapat berguna dalam situasi yang berbeda, tergantung pada kebutuhan spesifik aplikasi Anda. Misalnya, Anda dapat menggunakan onchange untuk menangani peristiwa ketika pengguna memilih pilihan baru dari dropdown, atau Anda dapat menggunakan onkeyup untuk menangani peristiwa ketika pengguna mengetik nama mereka di input. Pada akhirnya, pilihan atribut yang Anda gunakan akan tergantung pada kebutuhan spesifik aplikasi Anda dan tugas yang ingin Anda selesaikan. -->
+   <!-- `onchange` dan `onkeyup` adalah atribut acara dalam HTML yang digunakan untuk menangani interaksi pengguna dengan elemen-elemen dalam halaman web.
+
+1. **onchange**: Atribut ini digunakan untuk menentukan tindakan yang akan dilakukan ketika nilai sebuah elemen berubah. Biasanya, ini sering digunakan pada elemen formulir seperti input atau select. Contoh penggunaan umumnya adalah ketika pengguna memilih opsi dari dropdown atau memilih kotak centang pada formulir. Tindakan yang diambil bisa berupa memvalidasi input, mengirim data ke server, atau melakukan tindakan JavaScript lainnya.
+
+Contoh:
+```html
+<select onchange="myFunction()">
+  <option value="1">Pilihan 1</option>
+  <option value="2">Pilihan 2</option>
+</select>
+```
+Dalam contoh di atas, `myFunction()` akan dipanggil setiap kali pengguna memilih opsi baru dalam dropdown.
+
+2. **onkeyup**: Atribut ini memungkinkan Anda menentukan tindakan yang akan dilakukan ketika pengguna melepaskan tombol setelah menekannya pada elemen input. Ini berguna untuk menangani interaksi ketika pengguna mengetik teks dalam elemen input dan ingin melakukan tindakan langsung setelah itu, seperti menampilkan saran pencarian saat pengguna mengetik di sebuah kotak pencarian.
+
+Contoh:
+```html
+<input type="text" onkeyup="myFunction()">
+```
+Dalam contoh di atas, `myFunction()` akan dipanggil setiap kali pengguna melepaskan tombol setelah mengetik di input. Anda dapat menggunakan nilai input ini untuk melakukan berbagai tindakan, seperti memperbarui hasil pencarian atau memvalidasi masukan.
+
+Perbedaan utama antara `onchange` dan `onkeyup` adalah bahwa `onchange` diaktifkan ketika elemen kehilangan fokus setelah nilainya berubah, sementara `onkeyup` diaktifkan saat tombol dilepaskan setelah ditekan pada elemen input. -->
+            <input class="w-full px-2 rounded-md" min="0" max="100" type="number" name="tugas" id="tugas"
+                   onchange="calculate()" placeholder="masukkan nilai"></td>
+    </tr>
+    <tr>
+        <td>UTS</td>
+        <td>30%</td>
+        <td><input class="w-full px-2 rounded-md" min="0" max="100" type="number" name="uts" id="uts"
+                   onchange="calculate()" placeholder="masukkan nilai"></td>
+    </tr>
+    <tr>
+        <td>UAS</td>
+        <td>40%</td>
+        <td><input class="w-full px-2 rounded-md" min="0" max="100" type="number" name="uas" id="uas"
+                   onchange="calculate()" placeholder="masukkan nilai"></td>
+    </tr>
+    <tr>
+        <td colspan="2">Indeks Prestasi</td>
+        <td id="indeks-presentasi">-</td>
+    </tr>
+    <tr>
+        <td colspan="2">Keterangan</td>
+        <td id="keterangan">Masukkan Value Data</td>
+    </tr>
+    <tr>
+        <td colspan="2">Nilai Akhir</td>
+        <td id="nilai-akhir">-</td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <button onclick="reset()"
+                    class="w-full transition border-none outline-none hover:bg-gray-500 hover:text-white rounded-md">
+                Reset
+            </button>
+        </td>
+    </tr>
+</table>
+</body>
+
+<script>
+
+    var credit = "Nama";
+    var creditBool = false;
+
+    function reset() {
+        sendError(true);
+        let nilaiQuis = document.getElementById("quis");
+        let nilaiTugas = document.getElementById("tugas");
+        let nilaiUTS = document.getElementById("uts");
+        let nilaiUAS = document.getElementById("uas");
+
+        nilaiQuis.classList.remove("bg-red-300");
+        nilaiTugas.classList.remove("bg-red-300");
+        nilaiUTS.classList.remove("bg-red-300");
+        nilaiUAS.classList.remove("bg-red-300");
+
+        document.getElementById("quis").value = "";
+        document.getElementById("tugas").value = "";
+        document.getElementById("uts").value = "";
+        document.getElementById("uas").value = "";
+
+        document.getElementById("nilai-akhir").textContent = "-";
+        document.getElementById("indeks-presentasi").textContent = "-";
+        document.getElementById("keterangan").textContent = "Berhasil Direset";
+    }
+
+    // Gunakan Boolean "true" atau string kosong "" untuk menghapus Notify
+    function sendError(message) {
+        const elmt = document.getElementById("notify");
+
+        message === true || message === "" ? (
+            elmt.classList.add("hidden")
+        ) : (
+            elmt.classList.remove("hidden"),
+                elmt.innerText = message
+        );
+    }
+
+    // Cek kondisi jika ter-cancel karena error
+    function isCancelled() {
+        let nilaiQuis = document.getElementById("quis");
+        let nilaiTugas = document.getElementById("tugas");
+        let nilaiUTS = document.getElementById("uts");
+        let nilaiUAS = document.getElementById("uas");
+
+        let result = false;
+        let listError = [];
+
+        [nilaiQuis, nilaiTugas, nilaiUTS, nilaiUAS].forEach((nilai) => {
+            nilai.value === "" ? (nilai.classList.add("bg-red-300"), listError.push(`nilai ${nilai.id} kosong`)) : null;
+            +nilai.value > 100 ? (nilai.classList.add("bg-red-300"), listError.push(`${nilai.id} lebih dari 100`)) : null;
+            +nilai.value < 0 ? (nilai.classList.add("bg-red-300"), listError.push(`${nilai.id} kurang dari 0`)) : null;
+            +nilai.value >= 0 && +nilai.value <= 100 ? (nilai.classList.remove("bg-red-300")) : null;
+        });
+
+
+        listError.length > 0 ? (
+            sendError(`Masalah Value: ${listError.join(", ")}`),
+                document.getElementById("nilai-akhir").textContent = "-",
+                document.getElementById("indeks-presentasi").textContent = "-",
+                document.getElementById("keterangan").textContent = "Nilai Invalid",
+                result = true
+        ) : sendError(true);
+
+        return result;
+    }
+
+    function calculate() {
+        let creditElmt = document.getElementById("credit");
+        (creditBool ? (
+            creditElmt.classList.remove("hidden"),
+                creditElmt.innerText = "Credit: " + credit
+        ) : null);
+
+        // calculate nilai akhir
+        let nilaiQuis = +document.getElementById("quis").value;
+        let nilaiTugas = +document.getElementById("tugas").value;
+        let nilaiUTS = +document.getElementById("uts").value;
+        let nilaiUAS = +document.getElementById("uas").value;
+        let nilaiAkhir = (nilaiQuis * 0.1) + (nilaiTugas * 0.2) + (nilaiUTS * 0.3) + (nilaiUAS * 0.4);
+        let indeksPrestasi;
+
+        // cek kondisi
+        isCancelled() ? null : (
+            // calculate indeks prestasi
+            nilaiAkhir >= 80 && nilaiAkhir <= 100 ? (
+                indeksPrestasi = 'A',
+                    keterangan = 'Lulus dengan Sangat Baik'
+            ) : nilaiAkhir >= 68 && nilaiAkhir < 80 ? (
+                indeksPrestasi = 'B',
+                    keterangan = 'Lulus dengan Baik'
+            ) : nilaiAkhir >= 55 && nilaiAkhir < 68 ? (
+                indeksPrestasi = 'C',
+                    keterangan = 'Lulus dengan Cukup'
+            ) : nilaiAkhir >= 38 && nilaiAkhir < 55 ? (
+                indeksPrestasi = 'D',
+                    keterangan = 'Lulus dengan Kurang'
+            ) : (
+                indeksPrestasi = 'F+',
+                    keterangan = 'Tidak Lulus'
+            ),
+
+                // update table
+                document.getElementById("nilai-akhir").textContent = nilaiAkhir * 10 / 10,
+                document.getElementById("indeks-presentasi").textContent = indeksPrestasi,
+                document.getElementById("keterangan").textContent = keterangan
+        );
+    }
+</script>
+                  </html>
